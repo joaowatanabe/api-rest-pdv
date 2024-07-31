@@ -1,174 +1,200 @@
-# desafio-backend-05-pdv
-![](https://i.imgur.com/xG74tOh.png)
+# Desafio Backend - API REST PDV - Cubos Academy
+## API REST - Sistema para frente de caixa
 
-# Desafio Módulo 5 - Backend dds t15
+Criação de uma API no padrao Rest para um sistema PDV (Frente de Caixa), banco de dados desenvolvido com PostgreSQL.
 
-Seja bem vindo(a) ao desafio do módulo 5.
+O funcionamento da API consistem em cadastro, listagem, login e manuntenção de usuarios (funcionários), o cadastro e manutenção dos produtos da loja e igualmente o cadastro, listage, atualização e manutenção de clientes inseridos no sistema da loja. Todo o desenolvimento e implementação do sistema foi feito de forma eficiente e segura implementando criptografia (bcrypt) de senhas e validação por tokens (bearer).
 
-Sua tarefa como desenvolvedor(a) será criar uma API para um PDV (Frente de Caixa). Esse será um projeto piloto, ou seja, no futuro outras funcionalidades serão implementadas.
+Utilizamos:
+ - supabase
+ - axios
+ - bcrypt
+ - cors
+ - express
+ - swagger
+
+<p align="center">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/joaowatanabe/api-rest-pdv?color=%2304D361">
+
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/joaowatanabe/api-rest-pdv">
+  
+  <a href="https://github.com/joaowatanabe/api-rest-pdv/commits/main">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/joaowatanabe/api-rest-pdv">
+  </a>
+  
+  <!-- <img alt="License" src="https://img.shields.io/badge/license-MIT-brightgreen"> -->
+  
+ 
+</p>
+<h4 align="center"> 
+	🚧 API REST - PDV 🚧
+</h4>
+
+<p align="center">
+	<!-- <img alt="Status Em Desenvolvimento" src="https://img.shields.io/badge/STATUS-EM%20DESENVOLVIMENTO-green"> -->
+    <img alt="Status Concluído" src="https://img.shields.io/badge/STATUS-CONCLU%C3%8DDO-brightgreen">
+</p>
+
+<p align="center">
+ <a href="#-sobre-o-projeto">Sobre</a> •
+ <a href="#-funcionalidades">Funcionalidades</a> • 
+ <a href="#-como-executar-o-projeto">Como executar</a> • 
+ <a href="#-tecnologias">Tecnologias</a> • 
+ <a href="#-autor">Autor</a> • 
+ <a href="#user-content--licença">Licença</a>
+</p>
 
 
-**Importante 1: Sempre que a validação de uma requisição falhar, responda com código de erro e mensagem adequada à situação, ok?**
+## 💻 Sobre o projeto
 
-**Importante 2: Para endpoints de cadastro/atualização os objetos de requisição devem conter as propriedades equivalentes as colunas das tabelas.**
+📄 PDV - é uma API desenvolvida no padrao REST 
 
-**Exemplo:**
 
-```javascript
-// Corpo da requisição para cadastro de usuário (body)
-{
-    "nome": "José",
-    "email": "jose@email.com",
-    "senha": "jose"
-}
-```
-
-**ATENÇÃO: Todos os endpoints deverão atender os requisitos citados acima.**
-
-## **Banco de dados**
-
-Você precisa criar um Banco de Dados PostgreSQL chamado `pdv`.
-
-**IMPORTANTE: Deverá ser criado no projeto o arquivo SQL que deverá ser o script contendo os comandos de criação das tabelas respeitando os nomes das tabelas e colunas respectivamente, além de, conter os comandos para a inserção das categorias que devem ser previamente cadastradas (estão citadas na 1ª Sprint no item Listar Categorias).**
-
-## **Requisitos obrigatórios**
-
--   A API a ser criada deverá acessar o banco de dados a ser criado `pdv` para persistir e manipular os dados de categorias, clientes, pedidos, produtos e usuários utilizados pela aplicação.
--   O campo id das tabelas no banco de dados deve ser auto incremento, chave primária e não deve permitir edição uma vez criado.
--   Qualquer valor monetário deverá ser representado em centavos (Ex.: R$ 10,00 reais = 1000)
-
-## **Status Codes**
-
-Abaixo, listamos os possíveis **_status codes_** esperados como resposta da API.
-
-```javascript
-// 200 (OK) = requisição bem sucedida
-// 201 (Created) = requisição bem sucedida e algo foi criado
-// 204 (No Content) = requisição bem sucedida, sem conteúdo no corpo da resposta
-// 400 (Bad Request) = o servidor não entendeu a requisição pois está com uma sintaxe/formato inválido
-// 401 (Unauthorized) = o usuário não está autenticado (logado)
-// 403 (Forbidden) = o usuário não tem permissão de acessar o recurso solicitado
-// 404 (Not Found) = o servidor não pode encontrar o recurso solicitado
-// 500 (Internal Server Error) = erro inesperado do servidor
-```
-
-<details>
-<summary>1ª Sprint</summary>
-<br>
-
-<details>
-<summary><b>Banco de Dados</b></summary>
-<br>
-
-Crie as seguintes tabelas e colunas abaixo: 
-
-**ATENÇÃO! Os nomes das tabelas e das colunas a serem criados devem seguir exatamente os nomes listados abaixo.**
-
--   usuarios
-    -   id
-    -   nome
-    -   email (campo único)
-    -   senha
--   categorias
-    -   id
-    -   descricao
-
-</details>
-
-<details>
-<summary><b>Listar categorias</b></summary>
-
-#### `GET` `/categoria`
-
-Essa é a rota que será chamada quando o usuário quiser listar todas as categorias cadastradas.
-
-As categorias a seguir precisam ser previamente cadastradas para que sejam listadas no endpoint de listagem das categorias.
-
-## **Categorias**
-
--   Informática
--   Celulares
--   Beleza e Perfumaria
--   Mercado
--   Livros e Papelaria
--   Brinquedos
--   Moda
--   Bebê
--   Games
-
-</details>
-
-<details>
-<summary><b>Cadastrar usuário</b></summary>
-
-#### `POST` `/usuario`
-
-Essa é a rota que será utilizada para cadastrar um novo usuário no sistema.
-
-Critérios de aceite:
-
-    - Validar os campos obrigatórios: 
-        - nome
-        - email
-        - senha
-    - A senha deve ser criptografada utilizando algum algoritmo de criptografia confiável.
-    - O campo e-mail no banco de dados deve ser único para cada registro, não permitindo dois usuários possuírem o mesmo e-mail.
-
-</details>
-
-<details>
-<summary><b>Efetuar login do usuário</b></summary>
-
-#### `POST` `/login`
-
-Essa é a rota que permite o usuário cadastrado realizar o login no sistema.
-
-Critérios de aceite:
-
-    - Validar se o e-mail e a senha estão corretos para o usuário em questão.
-    - Gerar um token de autenticação para o usuário.
-
-</details>
+Projeto desenvolvido durante o curso de desenvolvimento de software fullstack, onde ao finalizar o módulo 3 foi passado esse desafio de criar uma API para uma frente de caixa, atendendo a todos requisitos do padrao REST, utilizando bibliotecas, nodejs junto com o JavaScript e o banco de dados em PostgreSQL, atendendo a medidas de segurança como tokenização e encriptação de senhas. 
 
 ---
 
-## **ATENÇÃO**: Todas as funcionalidades (endpoints) a seguir, a partir desse ponto, deverão exigir o token de autenticação do usuário logado, recebendo no header com o formato Bearer Token. Portanto, em cada funcionalidade será necessário validar o token informado.
+## ⚙️ Funcionalidades
+
+- [x] Banco de dados relacional:
+    - [x] Usuários
+    - [x] Clientes
+    - [x] Produtos
+    - [x] Categorias
+    - [x] Pedidos
+- [x] Listagem de categorias
+- [x] Usuarios:
+    - [x] Cadastro de usuário
+    - [x] Efetuar o login do usuário
+    - [x] Detalhar o perfil do usuário logado
+    - [x] Editar perfil do usuário logado
+- [x] Produtos:
+    - [x] Cadastrar produto
+    - [x] Editar dados do protudo
+    - [x] Listar produtos
+    - [x] Detalhar produto
+    - [x] Excluir produto por id
+- [x] Clientes:
+    - [x] Cadastrar cliente
+    - [x] Editar dados do cliente
+    - [x] Listar clientes
+    - [x] Detalhar cliente
+- [x] Pedidos:
+    - [x] Cadastrar pedido
+    - [x] Listar pedidos
+    - [x] Aplicar regras do negócio:
+        - [x] Validação na exclusão de produto
+        - [x] Aprimorar cadastro/atualização de produto
+        - [x] Aprimorar exclusão de produto
+
+## Dados
+- Banco de dados relacional utilizamos PostgreSQL e optamos por colocar no storage do Supabase. 
+
+## Requisitos obrigatórios
+
+- [x] Deve seguir o padrão REST
+- [x] Código deve estar organizado
+- [x] Qualquer valor monetário deverá ser representado em centavos
+- [x] Utilizar status code adequado
+- [x] A API a ser criada deverá acessar o banco de dados a ser criado pdv para persistir e manipular os dados de categorias, clientes, pedidos, produtos e usuários utilizados pela aplicação.
+- [x] O campo id das tabelas no banco de dados deve ser auto incremento, chave primária e não deve permitir edição uma vez criado.
+- [x] Exigir token de autenticação no formato Bearer Token nos endpoints necessários.
+- [x] senha deve ser criptografada utilizando algum algoritmo de criptografia confiável.
+- [x] Enviar e-mail para o cliente notificando que o pedido foi efetuado com sucesso.   
 
 ---
 
-<details>
-<summary><b>Detalhar perfil do usuário logado</b></summary>
+## 🛣️ Como executar o projeto
 
-#### `GET` `/usuario`
+### Pré-requisitos
 
-Essa é a rota que permite o usuário logado a visualizar os dados do seu próprio perfil, de acordo com a validação do token de autenticação.
+Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
 
-</details>
+- Ter o Node.js instalado
+- Ter o PostgreSQL instalado e configurado
+- Ter o npm instalado globalmente
 
-<details>
-<summary><b>Editar perfil do usuário logado</b></summary>
+[Git](https://git-scm.com), [Node.js](https://nodejs.org/en/), , [Insomnia](https://insomnia.rest/download).
+Além disto é bom ter um editor para trabalhar com o código como [VSCode](https://code.visualstudio.com/)
 
-#### `PUT` `/usuario`
 
-Essa é a rota que permite o usuário logado atualizar informações de seu próprio cadastro, de acordo com a validação do token de autenticação.
+#### 🎲 Rodando o Backend (servidor)
 
-Critérios de aceite:
+```bash
 
-    - Validar os campos obrigatórios: 
-        - nome
-        - email
-        - senha
-    - A senha deve ser criptografada utilizando algum algoritmo de criptografia confiável.
-    - O campo e-mail no banco de dados deve ser único para cada registro, não permitindo dois usuários possuírem o mesmo e-mail.
+# Clone este repositório
+$ git clone git@github.com:joaowatanabe/api-rest-pdv.git
 
-</details>
+# Acesse a pasta do projeto no terminal/cmd
+$ cd api-rest-pdv
 
-<details>
-<summary><b>Efetuar deploy da aplicação</b></summary>
-<br>
+# Vá para a pasta src
+$ cd src
 
-Fazer deploy do projeto e disponibilizar a URL.
+# Instale as dependências
+$ npm install
 
-</details>
+# Configure o arquivo .env:
+## Crie um arquivo \`.env\` na raiz do projeto e defina as variáveis de ambiente:
 
-</details>
+DATABASE_URL=postgres://seu_usuario:sua_senha@host_do_postgresql:5432/nome_do_seu_banco
+ACCESS_TOKEN_SECRET=sua_chave_secreta
+PORT=3000
+
+## Configure o banco de dados:
+Crie o banco de dados \`pdv\` no PostgreSQL e execute o arquivo db.sql que contem todos os códigos necessários.
+
+### Observações:
+- Substitua \`seu-usuario\`, \`sua_senha\`, \`host_do_postgresql\` e \`nome_do_seu_banco\` pelas suas credenciais de banco de dados.
+- A variável \`ACCESS_TOKEN_SECRET\` deve ser uma string única e segura para gerar tokens de autenticação.
+
+```
+
+## 🛠 Tecnologias
+
+As seguintes ferramentas foram usadas na construção do projeto:
+
+
+#### [](https://github.com/joaowatanabe/apirest-bank-system#server-nodejs--typescript)**Server**  ([Node.js](https://nodejs.org/en)  +  [JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript))
+
+-   **[Express](https://expressjs.com/)**
+-   **[Nodemon](https://expressjs.com/)**
+-   **[Supabase](https://www.npmjs.com/package/@supabase/supabase-js)**
+-   **[Axios](https://www.npmjs.com/package/axios)**
+-   **[Bcrypt](https://www.npmjs.com/package/bcrypt)**
+-   **[Cors](https://www.npmjs.com/package/cors)**
+-   **[Dotenv](https://www.npmjs.com/package/dotenv)**
+-   **[form-data](https://www.npmjs.com/package/form-data)**
+-   **[Google API](https://www.npmjs.com/package/googleapis)**
+-   **[joi](https://www.npmjs.com/package/joi)**
+-   **[knex](https://www.npmjs.com/package/knex)**
+-   **[multer]([https://www.npmjs.com/package/form-data](https://www.npmjs.com/package/multer))**
+-   **[nodemailer](https://www.npmjs.com/package/nodemailer)**
+-   **[swagger](https://swagger.io/)**
+  
+> Veja o arquivo  [package.json](https://github.com/joaowatanabe/api-rest-pdv/package.json)
+
+
+#### [](https://github.com/cubos-academy/academy-template-readme-projects#utilit%C3%A1rios)**Utilitários**
+
+-   Editor:  **[Visual Studio Code](https://code.visualstudio.com/)**
+-   Markdown:  **[StackEdit](https://stackedit.io/)**,  **[Markdown Emoji](https://gist.github.com/rxaviers/7360908)**
+-   Commit Conventional:  **[Commitlint](https://github.com/conventional-changelog/commitlint)**
+-   Teste de API utilizando o swagger
+
+---
+
+## 💪 Como contribuir para o projeto
+
+1. Faça um **fork** do projeto.
+2. Crie uma nova branch com as suas alterações: `git checkout -b my-feature`
+3. Salve as alterações e crie uma mensagem de commit contando o que você fez: `git commit -m "feature: My new feature"`
+4. Envie as suas alterações: `git push origin my-feature`
+> Caso tenha alguma dúvida confira este [guia de como contribuir no GitHub](./CONTRIBUTING.md)
+
+---
+
+## 📝 Licença
+
+ Este projeto esta sobe a licença [MIT](./LICENSE).
+
