@@ -92,7 +92,6 @@ Este projeto consiste no desenvolvimento de uma API REST para um sistema de PDV 
 
 5. Configure o banco de dados:
    - Crie o banco pdv no PostgreSQL e execute o script SQL fornecido (db.sql).
-   ```bash
 
 6. Inicie o servidor:
    ```bash
